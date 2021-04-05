@@ -1,5 +1,7 @@
 from Node import Node
 
+class ListsEmptyException(Exception):
+    pass
 
 class LinkedLists:
     _head = None
@@ -10,7 +12,32 @@ class LinkedLists:
         self._head = None
         self._size = 0
 
-    # to string lists
+    # O(1)
+    def length(self):
+        return self._size
+
+    # O(1)
+    def isEmpty(self):
+        return self._size == 0
+
+    # O(n)
+    def indexOf(self, data):
+        index = 0
+        current = self._head
+
+        while(current != None):
+            if(current.getData() == data):
+                return index
+            index += 1
+            current = current.getNext()
+
+        return -1
+
+    # O()
+    def clear(self):
+        pass
+
+    # O(n)
     def toString(self):
         result = ""
         current = self._head
@@ -26,29 +53,57 @@ class LinkedLists:
             current = current.getNext()
         return result
 
-    # count size lists
-    def length(self):
-        return self._size
-
-    # check empty lists
-    def isEmpty(self):
-        return self._size == 0
-
-    # O(n) push new data to linked lists
-    def push(self, data):
+    # O(n)
+    def addLast(self, data):
         # create new node
         newNode = Node(data)
+
         # if empty => newNode = head
         if(self.isEmpty()):
             self._head = newNode
         else:
             current = self._head
-            # while current to end (node null)
-            while(current != None):
-                if(current.getNext() == None):
-                    current.setNext(newNode)
-                    break
+            # loop to last node
+            while(current.getNext() != None):
                 current = current.getNext()
+            # set new node
+            current.setNext(newNode)
 
         # increase size
         self._size += 1
+
+    # O(1)
+    def addFirst(self, data):
+        # create new node
+        newNode = Node(data)
+
+        # set next new node to head and set head = new node
+        newNode.setNext(self._head)
+        self._head = newNode
+
+        # increase size
+        self._size += 1
+
+    # O()
+    def add(self, index, data):
+        pass
+
+    # O(1)
+    def removeFirst(self):
+        if(self.isEmpty()):
+            raise Exception
+
+        self._head = self._head.getNext()
+        self._size -= 1
+
+    # O(n)
+    def removeLast(self):
+        pass
+
+    # O()
+    def remove(self, data):
+        pass
+
+    # O()
+    def removeAt(self, index):
+        pass
