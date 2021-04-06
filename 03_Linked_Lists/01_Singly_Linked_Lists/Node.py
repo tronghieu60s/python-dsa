@@ -1,6 +1,4 @@
 class Node:
-    _data = None
-    _next = None
 
     def __init__(self, data):
         self._data = data

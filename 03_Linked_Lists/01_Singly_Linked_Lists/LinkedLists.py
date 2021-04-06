@@ -1,11 +1,7 @@
 from Node import Node
 
-class ListsEmptyException(Exception):
-    pass
 
 class LinkedLists:
-    _head = None
-    _size = 0
 
     # init lists
     def __init__(self):
@@ -33,9 +29,15 @@ class LinkedLists:
 
         return -1
 
-    # O()
+    # O(n)
     def clear(self):
-        pass
+        current = self._head
+        while(current != None):
+            # set head = next and set none current
+            self._head = current.getNext()
+            current = None
+            current = self._head
+        self._size = 0
 
     # O(n)
     def toString(self):
@@ -84,26 +86,59 @@ class LinkedLists:
         # increase size
         self._size += 1
 
-    # O()
+    # O(n)
     def add(self, index, data):
-        pass
+        if(index == 0):
+            self.addFirst(data)
+            return
+
+        currentIndex = 0
+        current = self._head
+        newNode = Node(data)
+
+        while(current != None):
+            if(currentIndex == index - 1):
+                newNode.setNext(current.getNext())
+                current.setNext(newNode)
+                self._size += 1
+                break
+
+            currentIndex += 1
+            current = current.getNext()
 
     # O(1)
     def removeFirst(self):
         if(self.isEmpty()):
-            raise Exception
+            raise Exception("Lists Empty. Can Not Remove!")
 
+        # set head = head next
         self._head = self._head.getNext()
         self._size -= 1
 
     # O(n)
     def removeLast(self):
-        pass
+        if(self.isEmpty()):
+            raise Exception("Lists Empty. Can Not Remove!")
 
-    # O()
+        # get second last and remove
+        secondLast = self._head
+        while(secondLast.getNext().getNext() != None):
+            secondLast = secondLast.getNext()
+        secondLast.setNext(None)
+
+        # decrease size
+        self._size -= 1
+
+    # O(n)
     def remove(self, data):
-        pass
+        current = self._head
+        preNode = None
 
-    # O()
-    def removeAt(self, index):
-        pass
+        while(current != None):
+            if(current.getData() == data):
+                preNode.setNext(current.getNext())
+                current.setNext(None)
+                self._size -= 1
+
+            preNode = current
+            current = current.getNext()
