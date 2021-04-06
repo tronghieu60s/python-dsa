@@ -1,9 +1,9 @@
 # Data Structures And Algorithms
 
-[Xem Mục Lục Trên Notion](https://www.notion.so/Data-Structures-And-Algorithms-3286b405101e45cda30b7ac90746ab7f)
+[Table Of Content On Notion](https://www.notion.so/Data-Structures-And-Algorithms-3286b405101e45cda30b7ac90746ab7f)
 
-- Đây là tài liệu tổng hợp và cũng là note của tôi khi ôn Cấu Trúc Dữ Liệu và Giải Thuật dựa trên tài liệu ôn tập có sẵn: Coding Interview University
+- This is a summary document and also my note when reviewing Data Structures and Algorithms based on the available review material: Coding Interview University
 
-- Ở đây tôi chỉ triển khai code theo tài liệu của Coding Interview University. Nếu bạn muốn, có thể triển khai tiếp cho các loại còn lại.
+- Here I only implement according to the documentation of Coding Interview University. If desired, you can implement to the remaining types.
 
-- Tài liệu gốc ở đây: https://github.com/jwasham/coding-interview-university
+- Root document at here: https://github.com/jwasham/coding-interview-university
