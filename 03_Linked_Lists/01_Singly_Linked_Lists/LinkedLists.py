@@ -8,43 +8,12 @@ class LinkedLists:
         self._head = None
         self._size = 0
 
-    # O(1)
-    def length(self):
-        return self._size
-
-    # O(1)
-    def isEmpty(self):
-        return self._size == 0
-
     # O(n)
-    def indexOf(self, data):
-        index = 0
-        current = self._head
-
-        while(current != None):
-            if(current.getData() == data):
-                return index
-            index += 1
-            current = current.getNext()
-
-        return -1
-
-    # O(n)
-    def clear(self):
-        current = self._head
-        while(current != None):
-            # set head = next and set none current
-            self._head = current.getNext()
-            current = None
-            current = self._head
-        self._size = 0
-
-    # O(n)
-    def toString(self):
+    def to_string(self):
         result = ""
         current = self._head
         # while current to end (node null)
-        while(current != None):
+        while(current):
             result += current.getData()
             # if have next node => add more icon
             if(current.getNext() != None):
@@ -55,27 +24,29 @@ class LinkedLists:
             current = current.getNext()
         return result
 
-    # O(n)
-    def addLast(self, data):
-        # create new node
-        newNode = Node(data)
-
-        # if empty => newNode = head
-        if(self.isEmpty()):
-            self._head = newNode
-        else:
-            current = self._head
-            # loop to last node
-            while(current.getNext() != None):
-                current = current.getNext()
-            # set new node
-            current.setNext(newNode)
-
-        # increase size
-        self._size += 1
+    # O(1)
+    def size(self):
+        return self._size
 
     # O(1)
-    def addFirst(self, data):
+    def empty(self):
+        return self._size == 0
+
+    # O(n)
+    def value_at(self, index):
+        currentindex = 0
+        current = self._head
+
+        while(current):
+            if(currentindex == index):
+                return current.getData()
+            currentindex += 1
+            current = current.getNext()
+        
+        return None
+
+    # O(1)
+    def push_front(self, data):
         # create new node
         newNode = Node(data)
 
@@ -86,17 +57,80 @@ class LinkedLists:
         # increase size
         self._size += 1
 
+    # O(1)
+    def pop_front(self):
+        if(self.empty()):
+            raise OverflowError("Lists Empty. Can Not Remove!")
+
+        headData = self._head.getData()
+        # set head = head next
+        self._head = self._head.getNext()
+        self._size -= 1
+
+        return headData
+
     # O(n)
-    def add(self, index, data):
+    def push_back(self, data):
+        # create new node
+        newNode = Node(data)
+
+        # if empty => newNode = head
+        if(self.empty()):
+            self._head = newNode
+        else:
+            current = self._head
+            # loop to last node
+            while(current.getNext()):
+                current = current.getNext()
+            # set new node
+            current.setNext(newNode)
+
+        # increase size
+        self._size += 1
+
+    # O(n)
+    def pop_back(self):
+        if(self.empty()):
+            raise OverflowError("Lists Empty. Can Not Remove!")
+
+        # get second last and remove
+        secondLast = self._head
+        while(secondLast.getNext().getNext()):
+            secondLast = secondLast.getNext()
+
+        lastData = secondLast.getNext().getData()
+        secondLast.setNext(None)
+
+        # decrease size
+        self._size -= 1
+
+        return lastData
+
+    # O(1)
+    def front(self):
+        if(self.empty()):
+            raise OverflowError("Lists Empty. Can Not Access!")
+
+        return self._head.getData()
+
+    # O(n)
+    def back(self):
+        if(self.empty()):
+            raise OverflowError("Lists Empty. Can Not Access!")
+
+        return self.value_at(self._size - 1)
+    
+    # O(n)
+    def insert(self, index, value):
         if(index == 0):
-            self.addFirst(data)
+            self.addFirst(value)
             return
 
         currentIndex = 0
         current = self._head
-        newNode = Node(data)
+        newNode = Node(value)
 
-        while(current != None):
+        while(current):
             if(currentIndex == index - 1):
                 newNode.setNext(current.getNext())
                 current.setNext(newNode)
@@ -106,39 +140,62 @@ class LinkedLists:
             currentIndex += 1
             current = current.getNext()
 
-    # O(1)
-    def removeFirst(self):
-        if(self.isEmpty()):
-            raise Exception("Lists Empty. Can Not Remove!")
-
-        # set head = head next
-        self._head = self._head.getNext()
-        self._size -= 1
-
     # O(n)
-    def removeLast(self):
-        if(self.isEmpty()):
-            raise Exception("Lists Empty. Can Not Remove!")
+    def erase(self, index):
+        if(index == 0):
+            self.pop_front()
+            return
 
-        # get second last and remove
-        secondLast = self._head
-        while(secondLast.getNext().getNext() != None):
-            secondLast = secondLast.getNext()
-        secondLast.setNext(None)
-
-        # decrease size
-        self._size -= 1
-
-    # O(n)
-    def remove(self, data):
+        currentIndex = 0
         current = self._head
         preNode = None
 
-        while(current != None):
-            if(current.getData() == data):
+        while(current):
+            if(currentIndex == index):
+                preNode.setNext(current.getNext())
+                current.setNext(None)
+                break
+
+            currentIndex += 1
+            preNode = current
+            current = current.getNext()
+
+    # O(n)
+    def value_n_from_end(self, n):
+        return self.value_at(self._size - n)
+
+    # O()
+    def reverse(self):
+        # define 3 variable
+        prev = None
+        current = self._head
+        next = None
+
+        # move pointer
+        while(current):
+            next = current.getNext()
+            current.setNext(prev)
+            prev = current
+            current = next
+        
+        self._head = prev
+
+    # O(n)
+    def remove_value(self, value):
+        current = self._head
+        preNode = None
+
+        while(current):
+            if(current.getData() == value):
+                if(current == self._head):
+                    self.pop_front()
+                    break
+
                 preNode.setNext(current.getNext())
                 current.setNext(None)
                 self._size -= 1
+                break
 
             preNode = current
             current = current.getNext()
+        
