@@ -1,11 +1,12 @@
 from Node import Node
 
 
-class LinkedLists:
+class LinkedListsTail:
 
     # init lists
     def __init__(self):
         self._head = None
+        self._tail = None
         self._size = 0
 
     # O(n)
@@ -42,7 +43,7 @@ class LinkedLists:
                 return current.getData()
             currentIndex += 1
             current = current.getNext()
-        
+
         return None
 
     # O(1)
@@ -50,9 +51,12 @@ class LinkedLists:
         # create new node
         newNode = Node(data)
 
-        # set next new node to head and set head = new node
-        newNode.setNext(self._head)
-        self._head = newNode
+        if(self.empty()):
+            self._head = self._tail = newNode
+        else:
+            # set next new node to head and set head = new node
+            newNode.setNext(self._head)
+            self._head = newNode
 
         # increase size
         self._size += 1
@@ -64,26 +68,24 @@ class LinkedLists:
 
         headData = self._head.getData()
         # set head = head next
+        if(self._head == self._tail):
+            self._tail = None
         self._head = self._head.getNext()
         self._size -= 1
 
         return headData
 
-    # O(n)
+    # O(1)
     def push_back(self, data):
         # create new node
         newNode = Node(data)
 
         # if empty => newNode = head
         if(self.empty()):
-            self._head = newNode
+            self._head = self._tail = newNode
         else:
-            current = self._head
-            # loop to last node
-            while(current.getNext()):
-                current = current.getNext()
-            # set new node
-            current.setNext(newNode)
+            self._tail.setNext(newNode)
+            self._tail = newNode
 
         # increase size
         self._size += 1
@@ -113,13 +115,13 @@ class LinkedLists:
 
         return self._head.getData()
 
-    # O(n)
+    # O(1)
     def back(self):
         if(self.empty()):
             raise OverflowError("Lists Empty. Can Not Access!")
 
-        return self.value_at(self._size - 1)
-    
+        return self._tail.getData()
+
     # O(n)
     def insert(self, index, value):
         if(index == 0):
@@ -171,13 +173,14 @@ class LinkedLists:
         current = self._head
         next = None
 
+        self._tail = current
         # move pointer
         while(current):
             next = current.getNext()
             current.setNext(prev)
             prev = current
             current = next
-        
+
         self._head = prev
 
     # O(n)
