@@ -8,4 +8,5 @@ def insertionSort(arr):
         arr[j + 1] = key
     return arr
 
+
 print(insertionSort([1, 5, 7, 2, 4, 3, 9]))
