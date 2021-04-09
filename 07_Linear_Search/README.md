@@ -1,0 +1,1 @@
+Linear Search là thuật toán tìm kiếm cơ bản nhất.
